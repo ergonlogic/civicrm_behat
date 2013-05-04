@@ -1,0 +1,25 @@
+# Local configuration.
+default:
+  context:
+    parameters:
+      drupal_users:
+        drupal:
+          'drupal'
+        site admin:
+          '|SITEADMINPW|'
+
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: '|BASE_URL|'
+      goutte:
+        guzzle_parameters:
+          redirect.disable: |true|
+
+    Drupal\DrupalExtension\Extension:
+      # Set this drush alias in your aliases.drushrc.php file to match
+      # the base_url set above. Leave off the preceding '@'.
+      drush:
+        alias: '|DRUSHALIAS|'
+      basic_auth:
+        username: '|BASIC_AUTH_USER|'
+        password: '|BASIC_AUTH_PASS|'

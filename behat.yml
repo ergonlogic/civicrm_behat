@@ -1,0 +1,59 @@
+# behat.yml
+default:
+  filters:
+    tags: '~@bug&&~@wip'
+  paths:
+    features:   'features'
+    bootstrap:  'features/bootstrap'
+  context:
+    parameters:
+      default_browser: 'goutte'
+  extensions:
+    Behat\MinkExtension\Extension:
+      goutte: ~
+      selenium2: ~
+    Drupal\DrupalExtension\Extension:
+      blackbox: ~
+      drush: ~
+      # regions
+      region_map:
+        content: "#content"
+        # Header regions
+        header: "#header-region"
+        # frontpage content regions
+        navigation: "#navigation"
+        # Footer region
+        footer: "#footer"
+        # Installer settings
+        civicrm_db_settings: "#mysql_credentials"
+        drupal_db_settings: "#drupal_credentials"
+        civicrm_testResults: ".testResults"
+        civicrm_error: ".error"
+        civicrm_db: "[name=dbDetails]"
+  formatter:
+    name: pretty
+    parameters:
+      output_styles:
+        comment: [ black, white, [ underscore ] ]
+
+
+ci:                    # run all 'ready' tests
+  filters:
+    tags: '~@bug&&~@wip'
+wip:                   # run tests that are still in dev
+  filters:
+    tags: '@wip&&~@bug'
+smoke:                 # run key tests (fast test)
+  filters:
+    tags: '@smoke-test,@smoke'
+no-slow:               # dont run slow tests
+  filters:
+    tags: '@~bug&&~@slow'
+
+firefox:
+  extensions:
+    Behat\MinkExtension\Extension:
+      default_session: selenium2
+
+imports:
+  - behat.local.yml
